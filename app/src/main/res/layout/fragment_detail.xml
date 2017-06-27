@@ -1,7 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
     tools:context="test.mvptestapp.ui.fragment.WebDetailFragment">
 
-</FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black">
+
+        <ImageButton
+            android:id="@+id/back_arr"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical"
+            android:background="@color/transp"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/add_fav"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:background="@color/transp"
+            app:srcCompat="@drawable/btn_fav_list" />
+    </FrameLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>
