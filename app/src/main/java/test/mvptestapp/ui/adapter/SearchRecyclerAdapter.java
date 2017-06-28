@@ -5,7 +5,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,8 +17,8 @@ import test.mvptestapp.model.retrofit.AnswerModel;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<AnswerModel.Items> posts;
     private final OnItemClickListener listener;
+    private List<AnswerModel.Items> posts;
 
     public SearchRecyclerAdapter(OnItemClickListener listener) {
         posts = new ArrayList<>();
@@ -44,27 +43,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         vh.bind(posts.get(position), listener);
     }
 
-//        LocalViewHolder lvh = (LocalViewHolder) holder;
-//                lvh.statLayout.setVisibility(View.GONE);
-//                lvh.vLine.setVisibility(View.GONE);
-//                lvh.authorName.setText(postsCopy.get(position).getOwner().getDisplayName());
-//                lvh.questionName.setText(Html.fromHtml(postsCopy.get(position).getTitle()));
-//                lvh.questionItem.setOnClickListener(v -> {
-//                    BrowseAnswerFragment fragment = new BrowseAnswerFragment();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("link", postsCopy.get(position).getLink());
-//                    bundle.putString("title", postsCopy.get(position).getTitle());
-//                    bundle.putString("name", postsCopy.get(position).getOwner().getDisplayName());
-//                    fragment.setArguments(bundle);
-//                    FragmentManager manager = MainActivity.getInstance().getFragmentManager();
-//                    manager.beginTransaction()
-//                            .replace(R.id.container, fragment, BrowseAnswerFragment.class.getSimpleName())
-//                            .addToBackStack(null)
-//                            .commit();
-//                      MainActivity.getInstance().searchView.clearFocus();
-//
-//                });
-
     @Override
     public int getItemCount() {
         if (posts == null)
@@ -77,23 +55,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-//    public void clear() {
-//        this.postsCopy.clear();
-//    }
-//
-//    public void filter(String text) {
-//        postsCopy.clear();
-//        if (text.isEmpty()) {
-//            postsCopy.addAll(posts);
-//        } else {
-//            text = text.toLowerCase();
-//            for (AnswerModel.Items item : posts) {
-//                if (item.getTitle().toLowerCase().contains(text)) {
-//                    postsCopy.add(item);
-//                }
-//            }
-//        }
-//    }
 
     private class MainViewHolder extends RecyclerView.ViewHolder {
         TextView votesCount;
@@ -123,22 +84,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    private class LocalViewHolder extends RecyclerView.ViewHolder {
-        TextView questionName;
-        TextView authorName;
-        LinearLayout questionItem;
-        LinearLayout statLayout;
-        ImageView vLine;
 
-        LocalViewHolder(View itemView) {
-            super(itemView);
-            questionName = (TextView) itemView.findViewById(R.id.questionName);
-            authorName = (TextView) itemView.findViewById(R.id.authorName);
-            questionItem = (LinearLayout) itemView.findViewById(R.id.answerItemLayout);
-            statLayout = (LinearLayout) itemView.findViewById(R.id.statLayout);
-            vLine = (ImageView) itemView.findViewById(R.id.vLine);
-
-        }
-    }
 }
 

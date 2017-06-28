@@ -55,17 +55,19 @@ public class SearchAnswerPresenter extends MvpPresenter<SearchAnswerView> {
         }
     }
 
-    public void openWebDetailFragment(String link, String title, String displayName) {
+    public void prepareWebDetailFragment(String link, String title, String displayName) {
         Bundle bundle = new Bundle();
         bundle.putString("link", link);
         bundle.putString("title", title);
         bundle.putString("name", displayName);
         getViewState().openDetailFragment(bundle);
+
     }
 
     public void updateCountFav() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<FavoriteDBModel> data = realm.where(FavoriteDBModel.class).findAll();
         getViewState().updateFavCount(data.size());
+        realm.close();
     }
 }

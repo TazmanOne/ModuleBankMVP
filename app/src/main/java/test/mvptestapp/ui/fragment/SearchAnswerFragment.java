@@ -18,11 +18,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import test.mvptestapp.R;
 import test.mvptestapp.model.retrofit.AnswerModel;
 import test.mvptestapp.presentation.presenter.SearchAnswerPresenter;
 import test.mvptestapp.presentation.view.SearchAnswerView;
 import test.mvptestapp.ui.adapter.SearchRecyclerAdapter;
+import test.mvptestapp.ui.common.EndlessRecyclerViewScrollListener;
 
 public class SearchAnswerFragment extends MvpAppCompatFragment implements SearchAnswerView, WebDetailFragment.DBCallback {
     public static final String TAG = "SearchAnswerFragment";
@@ -43,7 +45,18 @@ public class SearchAnswerFragment extends MvpAppCompatFragment implements Search
     LinearLayout emptyState;
 
     private SearchRecyclerAdapter mAdapter;
+    private String queryString;
 
+    @OnClick(R.id.btn_favorite)
+    public void localAnswersClicked() {
+        searchView.clearFocus();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.empty_container, new LocalAnswersFragment(), LocalAnswersFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -60,17 +73,28 @@ public class SearchAnswerFragment extends MvpAppCompatFragment implements Search
 
         btnFavorite.setText(getString(R.string.favorite) + " " + new String(Character.toChars(0x2B50)));
         showLoadingProgress(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        mAdapter = new SearchRecyclerAdapter(
-                item -> mSearchAnswerPresenter.openWebDetailFragment(
-                        item.getLink(),
-                        item.getTitle(),
-                        item.getOwner().getDisplayName()));
-        recyclerView.setAdapter(mAdapter);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
+        recyclerView.setLayoutManager(llm);
+        mAdapter = new SearchRecyclerAdapter(item -> {
+            AnswerModel.Items answerItem = (AnswerModel.Items) item;
+            mSearchAnswerPresenter.prepareWebDetailFragment(
+                    answerItem.getLink(),
+                    answerItem.getTitle(),
+                    answerItem.getOwner().getDisplayName());
+        });
 
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mSearchAnswerPresenter.startSearching(queryString, page);
+
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                queryString = query;
                 onSearchStart(query);
                 searchView.clearFocus();
                 return true;
@@ -109,6 +133,7 @@ public class SearchAnswerFragment extends MvpAppCompatFragment implements Search
         if (answerModel.getItems().size() > 0) {
             emptyState.setVisibility(View.GONE);
             mAdapter.setPosts(answerModel.getItems());
+
         } else {
             emptyState.setVisibility(View.VISIBLE);
         }

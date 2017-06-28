@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.StartActivity">
+
     <FrameLayout
+        android:id="@+id/empty_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/empty_container"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

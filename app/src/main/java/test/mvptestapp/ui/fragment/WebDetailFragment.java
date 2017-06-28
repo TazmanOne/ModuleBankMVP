@@ -22,10 +22,10 @@ import test.mvptestapp.presentation.view.WebDetailView;
 
 public class WebDetailFragment extends MvpAppCompatFragment implements WebDetailView {
     public static final String TAG = "WebDetailFragment";
-    @InjectPresenter
-    WebDetailPresenter mWebDetailPresenter;
     @BindView(R.id.webView)
     public WebView webView;
+    @InjectPresenter
+    WebDetailPresenter mWebDetailPresenter;
     @BindView(R.id.back_arr)
     ImageButton back_arr;
     @BindView(R.id.add_fav)
@@ -35,12 +35,11 @@ public class WebDetailFragment extends MvpAppCompatFragment implements WebDetail
     private String name;
     private String title;
     private String link;
+    private DBCallback dbCallback;
 
     public void setDbCallback(DBCallback dbCallback) {
         this.dbCallback = dbCallback;
     }
-
-    private DBCallback dbCallback;
 
     @OnClick(R.id.add_fav)
     void add_fav_clicked() {
@@ -62,15 +61,6 @@ public class WebDetailFragment extends MvpAppCompatFragment implements WebDetail
     @OnClick(R.id.back_arr)
     void back_arr_clicked() {
         getFragmentManager().popBackStack();
-    }
-
-    public static WebDetailFragment newInstance() {
-        WebDetailFragment fragment = new WebDetailFragment();
-
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
-        return fragment;
     }
 
     @Override
@@ -114,17 +104,16 @@ public class WebDetailFragment extends MvpAppCompatFragment implements WebDetail
     }
 
 
-
     @Override
     public void setStarIcon(Boolean isSave) {
-        if (isSave){
+        if (isSave) {
             add_fav.setSelected(true);
-        }else {
+        } else {
             add_fav.setSelected(false);
         }
     }
 
-    public interface DBCallback{
+    public interface DBCallback {
         void onUpdateDBValue();
     }
 }

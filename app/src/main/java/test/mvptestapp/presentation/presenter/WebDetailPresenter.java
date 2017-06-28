@@ -21,6 +21,7 @@ public class WebDetailPresenter extends MvpPresenter<WebDetailView> {
             answerToSave.setName(name);
 
         });
+        realm.close();
 
     }
 
@@ -30,6 +31,7 @@ public class WebDetailPresenter extends MvpPresenter<WebDetailView> {
             RealmResults<FavoriteDBModel> result = getExistAnswers(realm1, link);
             result.deleteAllFromRealm();
         });
+        realm.close();
 
     }
 
@@ -37,13 +39,14 @@ public class WebDetailPresenter extends MvpPresenter<WebDetailView> {
         getViewState().showLoadingProgress(true);
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> {
-            RealmResults<FavoriteDBModel> realmResults = getExistAnswers(realm1,link);
-            if (realmResults.size()>0){
+            RealmResults<FavoriteDBModel> realmResults = getExistAnswers(realm1, link);
+            if (realmResults.size() > 0) {
                 getViewState().setStarIcon(true);
-            }else {
+            } else {
                 getViewState().setStarIcon(false);
             }
         });
+        realm.close();
     }
 
     private RealmResults<FavoriteDBModel> getExistAnswers(Realm realm, String link) {

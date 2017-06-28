@@ -1,7 +1,5 @@
 package test.mvptestapp.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
@@ -14,18 +12,12 @@ import test.mvptestapp.ui.fragment.SearchAnswerFragment;
 public class StartActivity extends MvpAppCompatActivity implements MvpView {
     public static final String TAG = "StartActivity";
 
-    public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, StartActivity.class);
-
-        return intent;
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        if (savedInstanceState==null){
+        if (savedInstanceState == null) {
             startSearchFragment();
         }
     }
@@ -33,7 +25,7 @@ public class StartActivity extends MvpAppCompatActivity implements MvpView {
     public void startSearchFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.empty_container,new SearchAnswerFragment(),SearchAnswerFragment.TAG)
+                .replace(R.id.empty_container, new SearchAnswerFragment(), SearchAnswerFragment.TAG)
                 .commit();
     }
 }

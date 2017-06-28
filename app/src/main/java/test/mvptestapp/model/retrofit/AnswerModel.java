@@ -5,34 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by user on 23.06.2017.
- */
 
 public class AnswerModel implements Serializable {
     @SerializedName("items")
     private List<Items> items;
-    @SerializedName("has_more")
-    private boolean hasMore;
-    @SerializedName("quota_max")
-    private int quotaMax;
-    @SerializedName("quota_remaining")
-    private int quotaRemaining;
 
     public List<Items> getItems() {
         return items;
-    }
-
-    public boolean getHasMore() {
-        return hasMore;
-    }
-
-    public int getQuotaMax() {
-        return quotaMax;
-    }
-
-    public int getQuotaRemaining() {
-        return quotaRemaining;
     }
 
     public static class Owner {
